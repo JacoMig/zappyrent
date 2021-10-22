@@ -109,7 +109,7 @@ function App() {
             <div className="mt-20 mb-12 font-medium text-zappyblack">
               <p>{resultText(dataItems.length)}</p>
             </div>
-            {dataItems.length > 0 ? <ItemsContainer dataItems={dataItems} /> : null}
+            {dataItems.length > 0 ? <ItemsContainer data-testid="ItemsContainer" dataItems={dataItems} /> : null}
           </>
           : null}
       <Switch>

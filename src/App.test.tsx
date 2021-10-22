@@ -1,7 +1,5 @@
-import {filterItems} from './App';
+import App, {filterItems} from './App';
 import { DataResultsType, Objects } from './types';
-
-
 
 describe('App filter function', () => {
   
@@ -81,10 +79,4 @@ describe('App filter function', () => {
     expect(filterItems(true, items, typesObjects )).toEqual(items)
   })
 })
-
-
-/* describe('App result text', () => {
-
-}) */
-
 
