@@ -1,82 +1,37 @@
 import App, {filterItems} from './App';
-import { DataResultsType, Objects } from './types';
+import { DataResultsType, IApiResponse, Objects } from './types';
+import axios from 'axios'
+import {fetchApi, swapiGetter} from '../src/api'
+import ItemsContainer from './App'
+import { act, render, screen } from '@testing-library/react';
 
-describe('App filter function', () => {
+describe('fisrt test block', () => {
+  jest.mock('../src/api');
   
-  it('test function filterItems() with types and no availability checked', () => {
-    const typesObjects:Objects = [
-      {
-          key: 'private',
-          label: 'Private Room',
-          checked: true
-      },
-      {
-          key: 'entire',
-          label: 'Entire Property',
-          checked: false
-      },
-      {
-          key: 'shared',
-          label: 'Shared Room',
-          checked: false
-      },
-      {
-          key: 'studio',
-          label: 'Studio',
-          checked: false
-      }
-    ]
-    const items:Array<DataResultsType> =  [{
-      "id": 1,
-      "type": "Private Room",
-      "available": true
-    },
-    {
-      "id": 2,
-      "type": "Entire Property",
-      "available": false
-    }];
-    expect(filterItems(undefined, items, typesObjects )).toEqual([{
-      "id": 1,
-      "type": "Private Room",
-      "available": true
-    }])
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('swapi getter', async () => {
+    await act( async() => {
+      render(<App/>)
+      const result = await fetchApi('https://my-json-server.typicode.com/zappyrent/frontend-assessment/properties');
+      expect(result.data.length).toEqual(12)
+    })
+    expect(screen.getByTestId('ItemsContainer')).toBeInTheDocument()
   })
 
-  it('test function filterItems() with types and availability', () => {
-    const typesObjects:Objects = [
-      {
-          key: 'private',
-          label: 'Private Room',
-          checked: true
-      },
-      {
-          key: 'entire',
-          label: 'Entire Property',
-          checked: true
-      },
-      {
-          key: 'shared',
-          label: 'Shared Room',
-          checked: false
-      },
-      {
-          key: 'studio',
-          label: 'Studio',
-          checked: false
-      }
-    ]
-    const items:Array<DataResultsType> =  [{
-      "id": 1,
-      "type": "Private Room",
-      "available": true
-    },
-    {
-      "id": 2,
-      "type": "Entire Property",
-      "available": true
-    }];
-    expect(filterItems(true, items, typesObjects )).toEqual(items)
-  })
+
+
 })
 
+/* 
+import mockAxios from 'axios'
+jest.mock('axios)
+mockAxios.get.mockImplementation(() => Promise.resolve({data: {name: "Mock Jedi"}}))
+
+it("test description", () => {
+  const result = await swapiGetter(1)
+  expect(result).toBe("Mock Jedi")
+})
+*/

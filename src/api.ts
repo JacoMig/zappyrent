@@ -1,6 +1,14 @@
 import axios, { AxiosResponse } from "axios";
 import { IApiResponse, DataResultsType } from "./types";
 
+export const swapiGetter = (id:string) => 
+    axios
+        .get(`https://swapi.dev/api/people/${id}`)
+        .then((res:any) => res.data.name)
+        .catch(err => console.log(err))
+
+
+
 export const fetchApi = async (url:string):Promise<IApiResponse<DataResultsType[]>> => {
     let result:IApiResponse<DataResultsType[]> = {data: [], errorMsg: '', status: 200}
     try{
@@ -17,4 +25,5 @@ export const fetchApi = async (url:string):Promise<IApiResponse<DataResultsType[
         console.log(e)
     }
     return result
-} 
+}  
+
