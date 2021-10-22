@@ -22,7 +22,7 @@ export const Checkbox = (props:checkboxPropsType) => {
     return (
         <div className="checkboxSelector">
             <label className="inline-flex items-center cursor-pointer">
-                {props.orientation === 'left' ?  <p className="mr-2">{props.label}</p> : null}
+                {props.orientation === 'left' ?  <p className="mr-2 sm:text-base text-sm">{props.label}</p> : null}
                 <input type="checkbox" className="form-checkbox text-green-500" checked={checked} onChange={handleChange} />
                 <span className="border border-zappygrey rounded-sm"></span>
                 {props.orientation === 'right' ? <p className="ml-2">{props.label}</p> : null}

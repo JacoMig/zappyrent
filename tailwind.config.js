@@ -1,3 +1,4 @@
+const colors = require('tailwindcss/colors')
 module.exports = {
   purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
   darkMode: false, // or 'media' or 'class'
@@ -7,7 +8,8 @@ module.exports = {
       zappygrey: "#ADADAD",
       zappyblack: "#282828",
       zappybadge: "#D7E0DF",
-      white: "#FFFFFF"
+      white: "#FFFFFF",
+      gray: colors.coolGray,
     },
     extend: {},
   },

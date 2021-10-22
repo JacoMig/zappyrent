@@ -1,4 +1,6 @@
-export const fetchApi = async (url:string) => {
+import { IApiResponse, DataResultsType } from "./types";
+
+export const fetchApi = async (url:string):Promise<IApiResponse<DataResultsType[]>> => {
     let result = {data: {}, errorMsg: '', status: 200}
     try{
         const response = await fetch(url);
@@ -6,32 +8,12 @@ export const fetchApi = async (url:string) => {
         if(response.status === 200){
            result = {data: data,  errorMsg: '', status: 200}
         } else {
-            let errorMessage = '';
-            let entity = url.includes('repos') ? 'Repository' : "User"
-            switch(response.status){
-                case 404:
-                    errorMessage = `${entity} ${data.message}`
-                break;
-                case 403:
-                    errorMessage = `Request ${data.message}`
-                break;
-                case 301:
-                    errorMessage = `${entity} ${data.message}`
-                break;
-                case 304:
-                    errorMessage = `${entity} ${data.message}`
-                break;
-                case 422:
-                    errorMessage = `Request ${data.message}`
-                break;
-                default:  errorMessage = `${data.message}`
-            }
-           result = {data: {}, errorMsg: errorMessage, status: response.status}
+           result = {data: {}, errorMsg: data.message, status: response.status}
         }
     }
       catch(e:any){
         result = {data: {}, errorMsg: e, status: 400}
         console.log(e)
     }
-    return result
+    return result as IApiResponse<DataResultsType[]>
 }
