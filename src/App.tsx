@@ -8,7 +8,7 @@ import { ItemsContainer } from './components/ItemsContainer/ItemsContainer';
 import {TypeSelector} from "./components/TypeSelector/TypeSelector"
 import {DataResultsType, IApiResponse, Objects} from './types'
 
-const typesObjects:Objects = [
+export const typesObjects:Objects = [
   {
       key: 'private',
       label: 'Private Room',

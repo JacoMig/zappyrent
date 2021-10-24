@@ -1,5 +1,7 @@
-import {handleTypes, typeOfObjectsText} from './TypeSelector'
+import {handleTypes, typeOfObjectsText, TypeSelector} from './TypeSelector'
 import { DropdownItemType, Objects } from '../../types';
+import {render, fireEvent } from '@testing-library/react';
+import { typesObjects } from '../../App';
 
 const type:DropdownItemType =  {
     key: 'private',
@@ -7,9 +9,37 @@ const type:DropdownItemType =  {
     checked: false
 }
 
+const componentProps = {
+    setTypes: () => {},
+    types: typesObjects
+}
 
+const renderTypeSelector = () => {
+    return render(<TypeSelector {...componentProps} />)
+}
 
 describe('Dropdown Types Selector', () => {
+    
+    afterEach(() => {
+        const {unmount} = renderTypeSelector()
+        unmount()
+    })
+  
+    it('should appear the dropdown by clicking once', () => {
+        const {getByRole} = renderTypeSelector()
+        fireEvent.click(getByRole('Button'))
+       expect(getByRole('DropdownMenu')).toBeInTheDocument()
+    })
+
+    it('should render 4 menu item based on the typesObjects', () => {
+        const {getByRole, queryAllByRole} = renderTypeSelector()
+        fireEvent.click(getByRole('Button'))
+        expect(queryAllByRole('menuitem')).toHaveLength(4)
+    }) 
+    
+});
+
+describe("Unit Test for functions typeOfObjectsText() and handleType()", () => {
     it('handleTypes() should return the object with the checked flag changed if the passed key exists', () => {
        
         expect(handleTypes('private', type)).toEqual({
@@ -68,4 +98,4 @@ describe('Dropdown Types Selector', () => {
         }] 
         expect(typeOfObjectsText(typesObjects)).toEqual('Private Room +1')
     })
-});
+})
