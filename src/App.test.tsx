@@ -4,25 +4,27 @@ import axios from 'axios'
 import {fetchApi, swapiGetter} from '../src/api'
 import ItemsContainer from './App'
 import { act, render, screen } from '@testing-library/react';
+import React from 'react';
 
 describe('fisrt test block', () => {
-  jest.mock('../src/api');
-  
+  jest.mock('./api');
+ /*  const setLoaded = jest.fn();
+  const useStateSpy = jest.spyOn(React, "useState");
+  useStateSpy.mockImplementation((loaded:boolean) => [loaded=false, setLoaded]); */
   afterEach(() => {
     jest.clearAllMocks();
   });
 
   it('swapi getter', async () => {
+    render(<App/>)
+    // let result:IApiResponse<DataResultsType[]>
     await act( async() => {
-      render(<App/>)
-      const result = await fetchApi('https://my-json-server.typicode.com/zappyrent/frontend-assessment/properties');
-      expect(result.data.length).toEqual(12)
+      const result = await fetchApi('https://my-json-server.typicode.com/zappyrent/frontend-assessment/properties').then(res => {
+        expect(res.data.length).toEqual(12)
+        expect(screen.getByTestId('ItemsContainer')).toBeInTheDocument()
+      })
     })
-    expect(screen.getByTestId('ItemsContainer')).toBeInTheDocument()
   })
-
-
-
 })
 
 /* 

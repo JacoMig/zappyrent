@@ -8,7 +8,7 @@ import { ItemsContainer } from './components/ItemsContainer/ItemsContainer';
 import {TypeSelector} from "./components/TypeSelector/TypeSelector"
 import {DataResultsType, IApiResponse, Objects} from './types'
 
-const typesObjects:Objects = [
+export const typesObjects:Objects = [
   {
       key: 'private',
       label: 'Private Room',
@@ -31,7 +31,7 @@ const typesObjects:Objects = [
   }
 ]
 
-export const filterItems = (availability: boolean | undefined, resultData:Array<DataResultsType>, types:Objects) => {
+export const filterItems = (availability: boolean | undefined, resultData:Array<DataResultsType>, types:Objects):Array<DataResultsType> => {
   const array:Array<DataResultsType> = []
   let outputData:Array<DataResultsType> = []
  
