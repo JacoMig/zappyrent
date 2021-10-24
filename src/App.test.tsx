@@ -1,7 +1,8 @@
-import App, {filterItems} from './App';
-import { DataResultsType, Objects } from './types';
+import {filterItems} from './App';
+import { DataResultsType, IApiResponse, Objects } from './types';
 
-describe('App filter function', () => {
+
+describe('Unit Test on App filter function', () => {
   
   it('test function filterItems() with types and no availability checked', () => {
     const typesObjects:Objects = [
@@ -79,4 +80,4 @@ describe('App filter function', () => {
     expect(filterItems(true, items, typesObjects )).toEqual(items)
   })
 })
-
+ 

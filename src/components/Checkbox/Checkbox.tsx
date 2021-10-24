@@ -11,7 +11,7 @@ type checkboxPropsType = {
 }
 
 export const Checkbox = (props:checkboxPropsType) => {
-    const [checked, setChecked] = useState(props.checked ? props.checked : false);
+    const [checked, setChecked] = useState<boolean>(props.checked ? props.checked : false);
  
     const handleChange = () => {
         setChecked(!checked);

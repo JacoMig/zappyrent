@@ -89,7 +89,7 @@ function App() {
   }, [types, resultData, loaded, availability])
 
   useEffect(() => {
-    fetchApi("https://my-json-server.typicode.com/zappyrent/frontend-assessment/properties").then((result:IApiResponse<DataResultsType[]>) => {setResultData(result.data); setDataItems(result.data); setLoaded(true)})
+    fetchApi().then((result:IApiResponse<DataResultsType[]>) => {setResultData(result.data); setDataItems(result.data); setLoaded(true)})
   }, [])
 
   return (
@@ -109,7 +109,7 @@ function App() {
             <div className="mt-20 mb-12 font-medium text-zappyblack">
               <p>{resultText(dataItems.length)}</p>
             </div>
-            {dataItems.length > 0 ? <ItemsContainer data-testid="ItemsContainer" dataItems={dataItems} /> : null}
+            {dataItems.length > 0 ? <div data-testid="ItemsContainer"><ItemsContainer dataItems={dataItems} /></div> : null}
           </>
           : null}
       <Switch>
