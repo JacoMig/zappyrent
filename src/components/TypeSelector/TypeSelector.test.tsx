@@ -27,13 +27,13 @@ describe('Dropdown Types Selector', () => {
   
     it('should appear the dropdown by clicking once', () => {
         const {getByRole} = renderTypeSelector()
-        fireEvent.click(getByRole('Button'))
-       expect(getByRole('DropdownMenu')).toBeInTheDocument()
+        fireEvent.click(getByRole('button'))
+       expect(getByRole('menu')).toBeInTheDocument()
     })
 
     it('should render 4 menu item based on the typesObjects', () => {
         const {getByRole, queryAllByRole} = renderTypeSelector()
-        fireEvent.click(getByRole('Button'))
+        fireEvent.click(getByRole('button'))
         expect(queryAllByRole('menuitem')).toHaveLength(4)
     }) 
     
