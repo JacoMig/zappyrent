@@ -1,3 +1,8 @@
+#### node version used 12.13, latest create react app with typescript, tailwindcss
+#### branch 'main'
+#### npm start  
+#### npm run testAll  (running all tests)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
