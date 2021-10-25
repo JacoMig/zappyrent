@@ -13,5 +13,5 @@ export type DataResultsType = {
 export interface IApiResponse<T> {
     status: number;
     errorMsg: string;
-    data: Array<T>;
+    data: T;
 }
