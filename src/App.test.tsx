@@ -1,5 +1,5 @@
 import {filterItems} from './App';
-import { DataResultsType, IApiResponse, Objects } from './types';
+import { DataResultsType, Objects } from './types';
 
 
 describe('Unit Test on App filter function', () => {
