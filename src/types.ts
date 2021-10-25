@@ -10,8 +10,8 @@ export type DataResultsType = {
     [key: string]: any;
 }
 
-export interface IApiResponse {
+export interface IApiResponse<T> {
     status: number;
     errorMsg: string;
-    data: Array<DataResultsType>;
+    data: Array<T>;
 }
