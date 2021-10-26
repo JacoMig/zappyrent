@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { fetchApi } from './api';
+import { fetchApi, getPerson } from './api';
 import './App.css';
 import { AvailableCheck } from './components/AvailableCheck/AvailableCheck';
 import { ItemModal } from './components/ItemModal/ItemModal';
@@ -73,23 +73,31 @@ const resultText = (itemsLength:number):string => {
   }
   return text
 }
+type AppPropsType = {
+  getPerson: () => Promise<any>
+}
 
 
-function App() {
+function App(props:AppPropsType) {
   const [types, setTypes] = useState<Objects>(typesObjects);
-  const [dataItems, setDataItems] = useState<DataResultsType[]>([]);
-  const [resultData, setResultData] = useState<DataResultsType[]>([]);
+  const [dataItems, setDataItems] = useState([]);
+  const [resultData, setResultData] = useState([]);
   const [availability, setAvailability] = useState<boolean | undefined>(false);
   const [loaded, setLoaded] = useState(false);
   
-  useEffect( () => {
+ /*  useEffect( () => {
     if(loaded){
       setDataItems(filterItems(availability, resultData, types))
     } 
-  }, [types, resultData, loaded, availability])
+  }, [types, resultData, loaded, availability]) */
 
   useEffect(() => {
-    fetchApi("https://my-json-server.typicode.com/zappyrent/frontend-assessment/properties").then((result:IApiResponse<DataResultsType[]>) => {setResultData(result.data); setDataItems(result.data); setLoaded(true)})
+    if(resultData.length > 0) setLoaded(true)
+  }, [resultData])
+
+  useEffect(() => {
+    props.getPerson().then((res) => {setResultData(res); setDataItems(res);console.log(res.length)})
+    // fetchApi("https://my-json-server.typicode.com/zappyrent/frontend-assessment/properties").then((result:IApiResponse<DataResultsType[]>) => {setResultData(result.data); setDataItems(result.data); setLoaded(true)})
   }, [])
 
   return (
@@ -104,14 +112,13 @@ function App() {
             <AvailableCheck setAvailability={setAvailability} />
           </div>
         </header>
-        {loaded ?
+       
           <>
             <div className="mt-20 mb-12 font-medium text-zappyblack">
               <p>{resultText(dataItems.length)}</p>
             </div>
-            {dataItems.length > 0 ? <div className="itemsContainer" data-testid="ItemsContainer"><ItemsContainer dataItems={dataItems} /></div> : null}
+            {dataItems.length > 0 ? <div className="itemsContainer" data-testid="ItemsContainer"></div> : null}
           </>
-          : null}
       <Switch>
         <Route path="/appartment/:id" children={<ItemModal items={resultData} />} />
       </Switch>

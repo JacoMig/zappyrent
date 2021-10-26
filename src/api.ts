@@ -1,12 +1,13 @@
 import axios, { AxiosResponse } from "axios";
 import { IApiResponse, DataResultsType } from "./types";
 
-export const swapiGetter = (id:string) => 
-    axios
-        .get(`https://swapi.dev/api/people/${id}`)
-        .then((res:any) => res.data.name)
-        .catch(err => console.log(err))
+const BASE_URL = 'https://jsonplaceholder.typicode.com/users'
 
+export const getPerson = async () => {
+  const response = await fetch(BASE_URL);
+  const data = await response.json();
+  return data;
+}
 
 
 export const fetchApi = async (url:string):Promise<IApiResponse<DataResultsType[]>> => {

@@ -25,17 +25,28 @@ describe('Dropdown Types Selector', () => {
         unmount()
     })
   
-    it('should appear the dropdown by clicking once', () => {
-        const {getByTestId} = renderTypeSelector()
-        fireEvent.click(getByTestId('Button'))
-       expect(getByTestId('DropdownMenu')).toBeInTheDocument()
+    it("test", async () => {
+        const mockSuccessResponse = [{id:0},{id: 1}];
+        const mockJsonPromise = Promise.resolve(mockSuccessResponse);
+        const mockFetchPromise = Promise.resolve({
+            json: () => mockJsonPromise,
+        });
+        var globalRef:any =global;
+        globalRef.fetch = jest.fn().mockImplementation(() => mockFetchPromise);
+        console.log((await mockFetchPromise).json())
+        // provide a mock implementation for the mocked fetch:
+        /* mocked(fetch).mockImplementation((): Promise<any> => {
+            return Promise.resolve({
+            json() {
+                return Promise.resolve([{name: 'Luke Vader'}]);
+            }
+            });
+        }); */
+        /* const person = await getPerson(1);
+        expect(mocked(fetch).mock.calls.length).toBe(1);
+        expect(person).toBeDefined();
+        expect(person.name).toBe('Luke Vader'); */
     })
-
-    it('should render 4 menu item based on the typesObjects', () => {
-        const {getByTestId, queryAllByRole} = renderTypeSelector()
-        fireEvent.click(getByTestId('Button'))
-        expect(queryAllByRole('menuitem')).toHaveLength(4)
-    }) 
     
 
     /* it('handleTypes() should return the object with the checked flag changed if the passed key exists', () => {
