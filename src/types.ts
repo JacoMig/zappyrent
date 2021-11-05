@@ -11,7 +11,7 @@ export type ArrayElement = {
 }
 
 export type DataResultsType = {
-  [key: string]: string | number | ArrayElement[]
+  [key: string]: string | number | ArrayElement[] | boolean
 }
 
 export interface IApiResponse<T> {

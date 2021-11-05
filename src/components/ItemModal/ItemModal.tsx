@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { ArrayElement, DataResultsType } from '../../types'
+import { ResultDataObject } from '../../api'
 
 type UrlParamsType = {
   id?: string
 }
 
 type ItemModalPropsType = {
-  items: DataResultsType[]
+  items: ResultDataObject[]
 }
 
 export const ItemModal = (props: ItemModalPropsType) => {
-  const [item, setItem] = useState<DataResultsType>({})
+  const [item, setItem] = useState<ResultDataObject | null>(null)
   const { id } = useParams<UrlParamsType>()
 
   useEffect(() => {
@@ -20,7 +20,7 @@ export const ItemModal = (props: ItemModalPropsType) => {
         const current = props.items.filter((this_item) => this_item.id === parseInt(id as string))
         if (current.length > 0) {
           return current[0]
-        } else return {}
+        } else return null
       })
     }
   }, [props.items, id])
@@ -40,7 +40,7 @@ export const ItemModal = (props: ItemModalPropsType) => {
         <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
           &#8203;
         </span>
-        {Object.keys(item).length > 0 ? (
+        {item ? (
           <div className="inline-block px-4 align-bottom bg-white rounded-2xl text-left overflow-hidden transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
             <div className="bg-white relative pt-5 pb-4 sm:pb-4">
               <Link to={'/'} className="absolute top-1 right-0 font-medium text-lg text-zappyblack">
@@ -55,11 +55,7 @@ export const ItemModal = (props: ItemModalPropsType) => {
                     Disponibile subito
                   </div>
                 ) : null}
-                <img
-                  className="object-cover h-40 w-full"
-                  src={(item.images as ArrayElement[])[0].url}
-                  alt={item.street as string}
-                />
+                <img className="object-cover h-40 w-full" src={item.image} alt={item.address} />
               </figure>
               <div className="card-body py-6">
                 <div className="flex items-center justify-center mx-auto">
@@ -76,7 +72,7 @@ export const ItemModal = (props: ItemModalPropsType) => {
                     <span className="text-xs">letto</span>
                   </div>
                 </div>
-                <p className="font-bold text-md text-zappyblack text-center mt-6">{`${item.street} ${item.street_number}, ${item.cap} ${item.city}`}</p>
+                <p className="font-bold text-md text-zappyblack text-center mt-6">{item.address}</p>
                 <p className="my-6 text-xs text-center">{item.description}</p>
                 <div className="flex items-center justify-center text-lg">
                   <p className="text-zappyblu pr-2">Canone d' affitto</p>

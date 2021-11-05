@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import { fetchApi } from './api'
+import { fetchApi, ResultDataObject } from './api'
 import './App.css'
 import { AvailableCheck } from './components/AvailableCheck/AvailableCheck'
 import { ItemModal } from './components/ItemModal/ItemModal'
 import { ItemsContainer } from './components/ItemsContainer/ItemsContainer'
 import { TypeSelector } from './components/TypeSelector/TypeSelector'
-import { DataResultsType, IApiResponse, Objects } from './types'
+import { IApiResponse, Objects } from './types'
 
 export const typesObjects: Objects = [
   {
@@ -33,11 +33,11 @@ export const typesObjects: Objects = [
 
 export const filterItems = (
   availability: boolean | undefined,
-  resultData: Array<DataResultsType>,
+  resultData: Array<ResultDataObject>,
   types: Objects
 ) => {
-  const array: Array<DataResultsType> = []
-  let outputData: Array<DataResultsType> = []
+  const array: Array<ResultDataObject> = []
+  let outputData: Array<ResultDataObject> = []
 
   if (!types.some((type) => type.checked)) {
     outputData = resultData
@@ -77,8 +77,8 @@ const resultText = (itemsLength: number): string => {
 
 function App() {
   const [types, setTypes] = useState<Objects>(typesObjects)
-  const [dataItems, setDataItems] = useState<DataResultsType[]>([])
-  const [resultData, setResultData] = useState<DataResultsType[]>([])
+  const [dataItems, setDataItems] = useState<ResultDataObject[]>([])
+  const [resultData, setResultData] = useState<ResultDataObject[]>([])
   const [availability, setAvailability] = useState<boolean | undefined>(false)
   const [loaded, setLoaded] = useState(false)
 
@@ -89,7 +89,7 @@ function App() {
   }, [types, resultData, loaded, availability])
 
   useEffect(() => {
-    fetchApi().then((result: IApiResponse<DataResultsType[]>) => {
+    fetchApi().then((result: IApiResponse<ResultDataObject[]>) => {
       setResultData(result.data)
       setDataItems(result.data)
       setLoaded(true)

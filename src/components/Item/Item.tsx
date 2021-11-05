@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrayElement, DataResultsType } from '../../types'
+import { ResultDataObject } from '../../api'
 
 const stringCutter = (str: string, maxL: number) => {
   if (str.length > maxL) return `${str.substring(0, maxL)}...`
@@ -8,7 +8,7 @@ const stringCutter = (str: string, maxL: number) => {
 }
 
 type ItemPropsType = {
-  item: DataResultsType
+  item: ResultDataObject
 }
 
 export const Item = (props: ItemPropsType) => {
@@ -26,15 +26,15 @@ export const Item = (props: ItemPropsType) => {
           ) : null}
           <img
             style={!imageLoaded ? { visibility: 'hidden' } : {}}
-            src={(props.item.images as ArrayElement[])[0].url}
+            src={props.item.image}
             onLoad={() => setImageLoaded(true)}
-            alt={props.item.street as string}
+            alt={props.item.address}
           />
         </figure>
         <div className="card-body py-6">
           <div className="badge badge-secondary mb-4 text-xs px-6">{props.item.type}</div>
           <h2 className="text-zappyblack text-lg font-bold mb-4 px-6 h-16 leading-6">
-            {stringCutter(props.item.title as string, 50)}
+            {stringCutter(props.item.title, 50)}
           </h2>
           <div className="flex items-center justify-between mb-4 px-6">
             <div>
@@ -50,9 +50,7 @@ export const Item = (props: ItemPropsType) => {
               <span className="text-xs">letto</span>
             </div>
           </div>
-          <p className="mb-4 text-xs h-16 px-6">
-            {stringCutter(props.item.description as string, 100)}
-          </p>
+          <p className="mb-4 text-xs h-16 px-6">{stringCutter(props.item.description, 100)}</p>
           <div className="border-t border-gray-300 pt-6">
             <div className="px-6 flex items-center justify-between text-lg font-bold">
               <p className="text-zappyblu">Canone d' affitto</p>
