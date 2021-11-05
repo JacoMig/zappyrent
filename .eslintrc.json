@@ -21,7 +21,7 @@
         "args": "none"
       }
     ],
-    "@typescript-eslint/semi": ["off"],
+    "@typescript-eslint/semi": [0],
     "@typescript-eslint/no-unused-vars": [
       "warn",
       {
@@ -62,14 +62,6 @@
           "src/tests/**/*"
         ]
       }
-    ],
-    "react/jsx-props-no-spreading": "off",
-    "import/prefer-default-export": "off",
-    "react/jsx-boolean-value": "off",
-    "react/prop-types": "off",
-    "react/no-unescaped-entities": "off",
-    "react/jsx-one-expression-per-line": "off",
-    "react/jsx-wrap-multilines": "off",
-    "react/destructuring-assignment": "off"
+    ]
   }
 }
