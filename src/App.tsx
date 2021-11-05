@@ -1,47 +1,51 @@
-import { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { fetchApi } from './api';
-import './App.css';
-import { AvailableCheck } from './components/AvailableCheck/AvailableCheck';
-import { ItemModal } from './components/ItemModal/ItemModal';
-import { ItemsContainer } from './components/ItemsContainer/ItemsContainer';
-import {TypeSelector} from "./components/TypeSelector/TypeSelector"
-import {DataResultsType, IApiResponse, Objects} from './types'
+import { useEffect, useState } from 'react'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { fetchApi } from './api'
+import './App.css'
+import { AvailableCheck } from './components/AvailableCheck/AvailableCheck'
+import { ItemModal } from './components/ItemModal/ItemModal'
+import { ItemsContainer } from './components/ItemsContainer/ItemsContainer'
+import { TypeSelector } from './components/TypeSelector/TypeSelector'
+import { DataResultsType, IApiResponse, Objects } from './types'
 
-export const typesObjects:Objects = [
+export const typesObjects: Objects = [
   {
-      key: 'private',
-      label: 'Private Room',
-      checked: false
+    key: 'private',
+    label: 'Private Room',
+    checked: false,
   },
   {
-      key: 'entire',
-      label: 'Entire Property',
-      checked: false
+    key: 'entire',
+    label: 'Entire Property',
+    checked: false,
   },
   {
-      key: 'shared',
-      label: 'Shared Room',
-      checked: false
+    key: 'shared',
+    label: 'Shared Room',
+    checked: false,
   },
   {
-      key: 'studio',
-      label: 'Studio',
-      checked: false
-  }
+    key: 'studio',
+    label: 'Studio',
+    checked: false,
+  },
 ]
 
-export const filterItems = (availability: boolean | undefined, resultData:Array<DataResultsType>, types:Objects) => {
-  const array:Array<DataResultsType> = []
-  let outputData:Array<DataResultsType> = []
- 
-  if(!types.some(type => type.checked)){
+export const filterItems = (
+  availability: boolean | undefined,
+  resultData: Array<DataResultsType>,
+  types: Objects
+) => {
+  const array: Array<DataResultsType> = []
+  let outputData: Array<DataResultsType> = []
+
+  if (!types.some((type) => type.checked)) {
     outputData = resultData
-  }else {
-    types.forEach(type => {
-      if(type.checked){
-        resultData.map(item => {
-          if(item.type === type.label){
+  } else {
+    types.forEach((type) => {
+      if (type.checked) {
+        resultData.map((item) => {
+          if (item.type === type.label) {
             array.push(item)
           }
           return null
@@ -51,45 +55,45 @@ export const filterItems = (availability: boolean | undefined, resultData:Array<
     })
   }
 
-  if(availability)
-  return outputData.filter(item => item.available)
-  else
-  return outputData
+  if (availability) return outputData.filter((item) => item.available)
+  else return outputData
 }
 
-
-const resultText = (itemsLength:number):string => {
-  if(!itemsLength)
-    return ''
-  let text:string = ''
-  switch(itemsLength){
+const resultText = (itemsLength: number): string => {
+  if (!itemsLength) return ''
+  let text: string = ''
+  switch (itemsLength) {
     case 0:
-      text = `nessun alloggio trovato`;
-    break;
+      text = `nessun alloggio trovato`
+      break
     case 1:
-      text = `${itemsLength} alloggio trovato`  ;
-    break;
-    default: text = `${itemsLength} alloggi trovati`;
+      text = `${itemsLength} alloggio trovato`
+      break
+    default:
+      text = `${itemsLength} alloggi trovati`
   }
   return text
 }
 
-
 function App() {
-  const [types, setTypes] = useState<Objects>(typesObjects);
-  const [dataItems, setDataItems] = useState<DataResultsType[]>([]);
-  const [resultData, setResultData] = useState<DataResultsType[]>([]);
-  const [availability, setAvailability] = useState<boolean | undefined>(false);
-  const [loaded, setLoaded] = useState(false);
-  
-  useEffect( () => {
-    if(loaded){
+  const [types, setTypes] = useState<Objects>(typesObjects)
+  const [dataItems, setDataItems] = useState<DataResultsType[]>([])
+  const [resultData, setResultData] = useState<DataResultsType[]>([])
+  const [availability, setAvailability] = useState<boolean | undefined>(false)
+  const [loaded, setLoaded] = useState(false)
+
+  useEffect(() => {
+    if (loaded) {
       setDataItems(filterItems(availability, resultData, types))
-    } 
+    }
   }, [types, resultData, loaded, availability])
 
   useEffect(() => {
-    fetchApi().then((result:IApiResponse<DataResultsType[]>) => {setResultData(result.data); setDataItems(result.data); setLoaded(true)})
+    fetchApi().then((result: IApiResponse<DataResultsType[]>) => {
+      setResultData(result.data)
+      setDataItems(result.data)
+      setLoaded(true)
+    })
   }, [])
 
   return (
@@ -104,20 +108,24 @@ function App() {
             <AvailableCheck setAvailability={setAvailability} />
           </div>
         </header>
-        {loaded ?
+        {loaded ? (
           <>
             <div className="mt-20 mb-12 font-medium text-zappyblack">
               <p>{resultText(dataItems.length)}</p>
             </div>
-            {dataItems.length > 0 ? <div data-testid="ItemsContainer"><ItemsContainer dataItems={dataItems} /></div> : null}
+            {dataItems.length > 0 ? (
+              <div data-testid="ItemsContainer">
+                <ItemsContainer dataItems={dataItems} />
+              </div>
+            ) : null}
           </>
-          : null}
-      <Switch>
-        <Route path="/appartment/:id" children={<ItemModal items={resultData} />} />
-      </Switch>
+        ) : null}
+        <Switch>
+          <Route path="/appartment/:id" children={<ItemModal items={resultData} />} />
+        </Switch>
       </div>
     </Router>
-  );
+  )
 }
 
-export default App;
+export default App
